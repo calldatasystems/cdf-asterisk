@@ -4,7 +4,7 @@
 - name: Install and Configure Asterisk
   hosts: asterisk
   become: true
-  gather_facts: true
+  gather_facts: false
 
   vars:
     asterisk_version: "20"  # Asterisk 20 LTS
