@@ -2,7 +2,7 @@
 # Standalone Asterisk deployment using shared LiteLLM VPC
 
 locals {
-  project_name = "cdf-asterisk"
+  project_name = "cdf"
   environment  = "dev"
   region       = "us-east-2"
 
