@@ -124,7 +124,7 @@ jobs:
           pip install ansible==${{ env.ANSIBLE_VERSION }}
           pip install boto3 botocore
           ansible-galaxy collection install amazon.aws
-          pip install ansible-pylibssh
+          ansible-galaxy collection install community.aws
 
       - name: Create dynamic inventory
         run: |
