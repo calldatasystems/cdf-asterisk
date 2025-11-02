@@ -142,19 +142,21 @@ data "cloudinit_config" "asterisk" {
     content_type = "text/x-shellscript"
     content      = <<-EOF
       #!/bin/bash
-      set -e
+      set -ex
 
       # Update system
       apt-get update
-      apt-get upgrade -y
-
-      # Install SSM agent (usually pre-installed on Debian 12)
-      snap install amazon-ssm-agent --classic || true
-      systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service
-      systemctl start snap.amazon-ssm-agent.amazon-ssm-agent.service
+      DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
       # Install Python for Ansible
       apt-get install -y python3 python3-pip python3-apt
+
+      # Install SSM agent for Debian
+      cd /tmp
+      wget https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb
+      dpkg -i amazon-ssm-agent.deb
+      systemctl enable amazon-ssm-agent
+      systemctl start amazon-ssm-agent
 
       # Set hostname
       hostnamectl set-hostname ${local.name_prefix}
