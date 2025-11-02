@@ -21,9 +21,9 @@
     asterisk_rtp_start_port: 10000
     asterisk_rtp_end_port: 20000
 
-    # Wazo integration
-    wazo_ami_username: "wazo"
-    wazo_ami_secret: "{{ vault_wazo_ami_secret }}"
+    # AMI credentials
+    ami_username: "asterisk_admin"
+    ami_secret: "{{ vault_ami_secret }}"
 
   pre_tasks:
     - name: Update apt cache

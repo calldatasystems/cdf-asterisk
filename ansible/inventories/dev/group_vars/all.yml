@@ -19,8 +19,8 @@ asterisk_sip_context: "from-external"
 asterisk_rtp_start_port: 10000
 asterisk_rtp_end_port: 20000
 
-# Wazo integration credentials
-wazo_ami_username: "wazo"
+# AMI credentials for remote management
+ami_username: "asterisk_admin"
 
 # Logging
 asterisk_log_level: "warning"

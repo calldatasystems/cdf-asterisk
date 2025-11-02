@@ -8,9 +8,9 @@ port = {{ asterisk_ami_port }}
 bindaddr = {{ asterisk_ami_bind_address }}
 webenabled = {{ 'yes' if asterisk_ami_webenabled else 'no' }}
 
-; Wazo Platform Manager User
-[{{ wazo_ami_username }}]
-secret = {{ wazo_ami_secret }}
+; Remote Management User
+[{{ ami_username }}]
+secret = {{ ami_secret }}
 deny = 0.0.0.0/0.0.0.0
 permit = 10.0.0.0/255.0.0.0
 read = all
