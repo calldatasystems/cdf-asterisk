@@ -26,10 +26,21 @@
     ami_secret: "{{ vault_ami_secret }}"
 
   pre_tasks:
+    - name: Test connection
+      raw: echo "Connection successful"
+      changed_when: false
+
+    - name: Wait for system to be ready
+      raw: test -e /usr/bin/python3
+      retries: 10
+      delay: 5
+      register: result
+      until: result.rc == 0
+      changed_when: false
+
     - name: Update apt cache
-      apt:
-        update_cache: true
-        cache_valid_time: 3600
+      raw: apt-get update
+      changed_when: false
 
   roles:
     - role: asterisk
