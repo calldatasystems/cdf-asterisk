@@ -1,0 +1,26 @@
+;
+; Asterisk Dialplan Configuration
+;
+
+[general]
+static = yes
+writeprotect = no
+clearglobalvars = no
+
+[globals]
+; Global variables
+
+[from-external]
+; External inbound calls
+exten => _X.,1,NoOp(Incoming call from ${CALLERID(num)})
+same => n,Hangup()
+
+[from-internal]
+; Internal calls
+exten => _X.,1,NoOp(Internal call from ${CALLERID(num)})
+same => n,Dial(SIP/${EXTEN})
+same => n,Hangup()
+
+[default]
+exten => _X.,1,NoOp(Default context)
+same => n,Hangup()

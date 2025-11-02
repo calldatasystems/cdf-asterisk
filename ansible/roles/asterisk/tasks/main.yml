@@ -1,0 +1,128 @@
+---
+# Asterisk Installation Tasks
+
+- name: Install required dependencies
+  apt:
+    name:
+      - build-essential
+      - wget
+      - curl
+      - libssl-dev
+      - libncurses5-dev
+      - libnewt-dev
+      - libxml2-dev
+      - linux-headers-{{ ansible_kernel }}
+      - libsqlite3-dev
+      - uuid-dev
+      - libjansson-dev
+      - libspeex-dev
+      - libspeexdsp-dev
+      - libcurl4-openssl-dev
+      - libedit-dev
+      - libgsm1-dev
+      - libsrtp2-dev
+      - libopus-dev
+      - libcodec2-dev
+      - xmlstarlet
+      - subversion
+      - git
+    state: present
+    update_cache: true
+
+- name: Add Asterisk repository key
+  apt_key:
+    url: http://packages.asterisk.org/repo/deb/asterisk-{{ asterisk_version }}/asterisk-{{ asterisk_version }}-key.asc
+    state: present
+
+- name: Add Asterisk repository
+  apt_repository:
+    repo: "deb http://packages.asterisk.org/repo/deb/asterisk-{{ asterisk_version }} bookworm main"
+    state: present
+    filename: asterisk
+
+- name: Update apt cache after adding repository
+  apt:
+    update_cache: true
+
+- name: Install Asterisk
+  apt:
+    name:
+      - asterisk
+      - asterisk-core-sounds-en
+      - asterisk-moh-opsound-wav
+      - asterisk-modules
+    state: present
+
+- name: Create Asterisk user
+  user:
+    name: asterisk
+    system: true
+    create_home: false
+    shell: /bin/false
+    comment: "Asterisk PBX"
+
+- name: Set Asterisk ownership
+  file:
+    path: "{{ item }}"
+    owner: asterisk
+    group: asterisk
+    recurse: true
+  loop:
+    - /etc/asterisk
+    - /var/lib/asterisk
+    - /var/log/asterisk
+    - /var/spool/asterisk
+    - /run/asterisk
+
+- name: Deploy Asterisk configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: asterisk
+    group: asterisk
+    mode: '0640'
+    backup: true
+  loop:
+    - { src: 'asterisk.conf.j2', dest: '/etc/asterisk/asterisk.conf' }
+    - { src: 'sip.conf.j2', dest: '/etc/asterisk/sip.conf' }
+    - { src: 'rtp.conf.j2', dest: '/etc/asterisk/rtp.conf' }
+    - { src: 'extensions.conf.j2', dest: '/etc/asterisk/extensions.conf' }
+    - { src: 'manager.conf.j2', dest: '/etc/asterisk/manager.conf' }
+    - { src: 'modules.conf.j2', dest: '/etc/asterisk/modules.conf' }
+  notify: reload asterisk
+
+- name: Configure firewall for Asterisk
+  ufw:
+    rule: allow
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    comment: "{{ item.comment }}"
+  loop:
+    - { port: '5060', proto: 'udp', comment: 'Asterisk SIP' }
+    - { port: '5061', proto: 'tcp', comment: 'Asterisk SIP TLS' }
+    - { port: '5038', proto: 'tcp', comment: 'Asterisk AMI' }
+    - { port: '10000:20000', proto: 'udp', comment: 'Asterisk RTP' }
+
+- name: Enable firewall
+  ufw:
+    state: enabled
+
+- name: Create systemd override directory
+  file:
+    path: /etc/systemd/system/asterisk.service.d
+    state: directory
+    mode: '0755'
+
+- name: Deploy systemd override for Asterisk
+  template:
+    src: asterisk-override.conf.j2
+    dest: /etc/systemd/system/asterisk.service.d/override.conf
+    mode: '0644'
+  notify: reload systemd
+
+- name: Enable and start Asterisk
+  systemd:
+    name: asterisk
+    enabled: true
+    state: started
+    daemon_reload: true

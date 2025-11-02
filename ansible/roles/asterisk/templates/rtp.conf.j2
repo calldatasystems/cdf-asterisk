@@ -1,0 +1,15 @@
+;
+; RTP Configuration
+;
+
+[general]
+rtpstart = {{ asterisk_rtp_start_port }}
+rtpend = {{ asterisk_rtp_end_port }}
+
+; Enable/disable strict RTP protection
+strictrtp = yes
+probation = 4
+
+; ICE support
+icesupport = yes
+stunaddr = stun.l.google.com:19302

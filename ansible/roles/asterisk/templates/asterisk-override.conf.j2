@@ -1,0 +1,12 @@
+[Service]
+User={{ asterisk_user }}
+Group={{ asterisk_group }}
+Restart=always
+RestartSec=10s
+Type=forking
+PIDFile=/run/asterisk/asterisk.pid
+ExecStart=/usr/sbin/asterisk -f -C /etc/asterisk/asterisk.conf
+ExecReload=/usr/sbin/asterisk -rx 'core reload'
+
+[Install]
+WantedBy=multi-user.target

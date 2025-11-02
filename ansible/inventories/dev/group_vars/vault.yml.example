@@ -1,0 +1,6 @@
+---
+# Example Vault File - Encrypt with: ansible-vault encrypt vault.yml
+# Use this as a template to create your encrypted vault.yml
+
+# Wazo AMI credentials
+vault_wazo_ami_secret: "CHANGE_ME_SECURE_PASSWORD"

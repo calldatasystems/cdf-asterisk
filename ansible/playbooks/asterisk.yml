@@ -1,0 +1,52 @@
+---
+# Asterisk Installation and Configuration Playbook
+
+- name: Install and Configure Asterisk
+  hosts: asterisk
+  become: true
+  gather_facts: true
+
+  vars:
+    asterisk_version: "20"  # Asterisk 20 LTS
+    asterisk_ami_enabled: true
+    asterisk_ami_bind_address: "0.0.0.0"
+    asterisk_ami_port: 5038
+
+    # SIP Configuration
+    asterisk_sip_bind_address: "0.0.0.0"
+    asterisk_sip_bind_port: 5060
+    asterisk_sip_tls_bind_port: 5061
+
+    # RTP Configuration
+    asterisk_rtp_start_port: 10000
+    asterisk_rtp_end_port: 20000
+
+    # Wazo integration
+    wazo_ami_username: "wazo"
+    wazo_ami_secret: "{{ vault_wazo_ami_secret }}"
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+  roles:
+    - role: asterisk
+      tags: ['asterisk']
+
+  post_tasks:
+    - name: Ensure Asterisk is running
+      systemd:
+        name: asterisk
+        state: started
+        enabled: true
+
+    - name: Display Asterisk status
+      command: asterisk -rx "core show version"
+      register: asterisk_version_output
+      changed_when: false
+
+    - name: Show Asterisk version
+      debug:
+        msg: "{{ asterisk_version_output.stdout_lines }}"

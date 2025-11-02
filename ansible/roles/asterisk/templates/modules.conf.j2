@@ -1,0 +1,36 @@
+;
+; Asterisk Modules Configuration
+;
+
+[modules]
+autoload = yes
+
+; Core modules
+require = res_musiconhold.so
+require = res_crypto.so
+require = res_http_websocket.so
+
+; Channel drivers
+load = chan_sip.so
+noload = chan_iax2.so
+noload = chan_mgcp.so
+noload = chan_skinny.so
+
+; Codecs
+load = codec_ulaw.so
+load = codec_alaw.so
+load = codec_g729.so
+load = codec_opus.so
+
+; Applications
+load = app_dial.so
+load = app_playback.so
+load = app_voicemail.so
+load = app_directory.so
+load = app_confbridge.so
+load = app_queue.so
+
+; Resources
+load = res_rtp_asterisk.so
+load = res_srtp.so
+load = res_stun_monitor.so

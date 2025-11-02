@@ -1,0 +1,16 @@
+---
+# Asterisk Handlers
+
+- name: reload asterisk
+  command: asterisk -rx "core reload"
+  changed_when: true
+  failed_when: false
+
+- name: restart asterisk
+  systemd:
+    name: asterisk
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    daemon_reload: true

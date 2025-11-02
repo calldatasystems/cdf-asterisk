@@ -1,0 +1,21 @@
+# Example Terraform Variables for Dev Environment
+# Copy this file to terraform.tfvars and customize
+
+# AWS Configuration
+# aws_region = "us-east-2"
+
+# Instance Configuration
+# instance_type     = "t3.large"
+# root_volume_size  = 50
+
+# Security Configuration
+# Restrict these CIDRs in production!
+# sip_allowed_cidrs = ["0.0.0.0/0"]
+# rtp_allowed_cidrs = ["0.0.0.0/0"]
+# wazo_allowed_cidrs = ["10.0.0.0/16"]
+
+# Tags
+# tags = {
+#   Owner       = "your-team"
+#   CostCenter  = "engineering"
+# }

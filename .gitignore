@@ -1,0 +1,122 @@
+# CDF Asterisk - Git Ignore
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.tfstate.lock.info
+*tfplan*
+.terraformrc
+terraform.rc
+
+# Ansible
+*.retry
+.vault_pass
+.vault_password
+vault_pass.txt
+vault_password.txt
+ansible/roles/external/
+ansible/roles/downloaded/
+ansible/collections/
+*_decrypted.yml
+*_decrypted.yaml
+ansible.log
+*.log
+ansible/facts/
+*.facts
+
+# SSH Keys
+*.pem
+*.key
+*.ppk
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+ssh_config
+
+# AWS
+.aws/
+credentials
+config
+.aws-cli-cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+ENV/
+.venv/
+ansible-venv/
+.Python
+build/
+dist/
+*.egg-info/
+
+# IDE & Editors
+.vscode/
+*.code-workspace
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+.vim/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.directory
+.Trash-*
+
+# Project-Specific
+ansible/inventories/*/hosts.yml
+ansible/inventories/*/terraform_outputs.json
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*.zip
+*.tar
+*.tar.gz
+
+# Secrets
+.env
+.env.local
+secrets/
+secrets.yml
+*.secret
+*.crt
+*.cer
+*.token
+
+# CI/CD
+test-results/
+coverage/
+
+# Logs
+logs/
+*.log
+debug/
+
+# Documentation Build
+site/
+docs/_build/
+
+# Keep example files
+!*.example
+!*.template
+!terraform/environments/*/terraform.tfvars.example

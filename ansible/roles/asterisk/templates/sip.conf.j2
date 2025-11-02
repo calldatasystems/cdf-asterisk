@@ -1,0 +1,35 @@
+;
+; SIP Configuration for Asterisk
+;
+
+[general]
+context = {{ asterisk_sip_context }}
+bindaddr = {{ asterisk_sip_bind_address }}
+bindport = {{ asterisk_sip_bind_port }}
+transport = udp,tcp,tls
+
+; Network settings
+nat = force_rport,comedia
+externaddr = {{ ansible_default_ipv4.address }}
+localnet = 10.0.0.0/255.0.0.0
+qualify = yes
+
+; Security
+allowguest = no
+alwaysauthreject = yes
+match_auth_username = yes
+
+; Media/RTP
+rtpstart = {{ asterisk_rtp_start_port }}
+rtpend = {{ asterisk_rtp_end_port }}
+rtcpinterval = 5000
+
+; Performance
+maxcallbitrate = 384
+
+; Codec preferences
+disallow = all
+allow = ulaw
+allow = alaw
+allow = g729
+allow = opus

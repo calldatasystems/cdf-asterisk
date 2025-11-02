@@ -1,0 +1,48 @@
+[directories](!)
+astetcdir => /etc/asterisk
+astmoddir => /usr/lib/asterisk/modules
+astvarlibdir => /var/lib/asterisk
+astdbdir => /var/lib/asterisk
+astkeydir => /var/lib/asterisk
+astdatadir => /var/lib/asterisk
+astagidir => /usr/share/asterisk/agi-bin
+astspooldir => /var/spool/asterisk
+astrundir => /run/asterisk
+astlogdir => {{ asterisk_log_dir }}
+astsbindir => /usr/sbin
+
+[options]
+verbose = 3
+debug = 0
+alwaysfork = yes
+nofork = no
+quiet = no
+timestamp = yes
+execincludes = yes
+console = yes
+highpriority = yes
+initcrypto = yes
+nocolor = no
+dontwarn = no
+dumpcore = no
+languageprefix = no
+systemname = cdf-asterisk
+maxcalls = {{ asterisk_max_calls }}
+maxload = {{ asterisk_max_load_avg }}
+cache_record_files = yes
+record_cache_dir = /tmp
+transcode_via_sln = yes
+transmit_silence = yes
+runuser = {{ asterisk_user }}
+rungroup = {{ asterisk_group }}
+
+[compat]
+pbx_realtime = 1.6
+res_agi = 1.6
+app_set = 1.6
+
+[files]
+astctlpermissions = 0660
+astctlowner = {{ asterisk_user }}
+astctlgroup = {{ asterisk_group }}
+astctl = asterisk.ctl

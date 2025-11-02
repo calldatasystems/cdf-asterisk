@@ -1,0 +1,31 @@
+---
+# Dev Environment Variables
+
+# Asterisk configuration
+asterisk_version: "20"
+
+# AMI Configuration
+asterisk_ami_enabled: true
+asterisk_ami_bind_address: "0.0.0.0"
+asterisk_ami_port: 5038
+
+# SIP Configuration
+asterisk_sip_bind_address: "0.0.0.0"
+asterisk_sip_bind_port: 5060
+asterisk_sip_tls_bind_port: 5061
+asterisk_sip_context: "from-external"
+
+# RTP Configuration
+asterisk_rtp_start_port: 10000
+asterisk_rtp_end_port: 20000
+
+# Wazo integration credentials
+wazo_ami_username: "wazo"
+
+# Logging
+asterisk_log_level: "warning"
+asterisk_log_dir: "/var/log/asterisk"
+
+# Performance
+asterisk_max_load_avg: 12
+asterisk_max_calls: 500
