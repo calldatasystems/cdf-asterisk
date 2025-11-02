@@ -124,6 +124,7 @@ jobs:
           pip install ansible==${{ env.ANSIBLE_VERSION }}
           pip install boto3 botocore
           ansible-galaxy collection install amazon.aws
+          pip install ansible-pylibssh
 
       - name: Create dynamic inventory
         run: |
@@ -133,7 +134,7 @@ jobs:
             hosts:
               asterisk:
                 ansible_host: ${{ needs.terraform.outputs.instance_id }}
-                ansible_connection: aws_ssm
+                ansible_connection: community.aws.aws_ssm
                 ansible_aws_ssm_region: ${{ env.AWS_REGION }}
                 ansible_python_interpreter: /usr/bin/python3
           EOF
